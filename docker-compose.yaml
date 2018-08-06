@@ -1,0 +1,7 @@
+version: "3.3"
+services:
+  items:
+    image: qlik-rest-connector
+    container_name: connector
+    ports:
+      - "8080:8080"
