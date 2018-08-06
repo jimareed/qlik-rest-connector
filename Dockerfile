@@ -5,6 +5,7 @@ WORKDIR /go/src/github.com/jimareed/goapp/
 COPY . /go/src/github.com/jimareed/goapp/
 RUN rm -f goapp
 RUN go get github.com/360EntSecGroup-Skylar/excelize
+RUN go get github.com/gorilla/mux
 RUN go build -o ./goapp ./main.go
 
 FROM alpine:3.6

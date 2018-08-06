@@ -3,23 +3,38 @@ package main
 import (
 	"io"
 	"net/http"
+	"os"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
+	"github.com/gorilla/mux"
 )
 
 // MaxCols is the max columns in a row
 const MaxCols = 256
 
-// ItemList : list of items
-type ItemList []struct {
-	Item string `json:"item"`
-}
+// BinPath is the path where binary Files are Located
+const BinPath = "/usr/local/bin/"
+
+// DataPath is the path where xlsx Files are Located
+const DataPath = "/tmp/data/"
 
 func main() {
-	http.HandleFunc("/data", data)
-	http.HandleFunc("/", health)
-	http.HandleFunc("/health", health)
-	http.ListenAndServe(":8080", nil)
+	r := mux.NewRouter()
+	r.HandleFunc("/data/{id}", data)
+	r.HandleFunc("/health", health)
+
+	http.ListenAndServe(":8080", r)
+}
+
+func getPath() string {
+
+	path := DataPath
+
+	if _, err := os.Stat(DataPath); os.IsNotExist(err) {
+		path = BinPath
+	}
+
+	return path
 }
 
 func emptyrow(colvalue [MaxCols]string, numCols int) bool {
@@ -51,13 +66,16 @@ func writerow(w http.ResponseWriter, colname [MaxCols]string, colvalue [MaxCols]
 
 func data(w http.ResponseWriter, r *http.Request) {
 
+	vars := mux.Vars(r)
+	id := vars["id"]
+
 	io.WriteString(w, "{\n\"data\": [")
 
-	excelFileName := "/usr/local/bin/example.xlsx"
+	excelFileName := getPath() + id + ".xlsx"
 	xlFile, err := excelize.OpenFile(excelFileName)
 	if err != nil {
-		io.WriteString(w, "{\"item\":\"")
-		io.WriteString(w, "error")
+		io.WriteString(w, "{\"error\":\"")
+		io.WriteString(w, "error opening file "+excelFileName)
 		io.WriteString(w, "\"}\n")
 	} else {
 
