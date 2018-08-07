@@ -37,3 +37,9 @@ $ docker build --tag qlik-rest-connector .
 $ docker-compose up
 $ docker-compose down (to shutdown connector)
 ```
+
+```
+$ helm install --name qlik-rest-connector ./qlik-rest-connector
+$ kubectl port-forward qlik-rest-connector-7b9ccd5fb8-qwlzg 8080:8080
+Forwarding from 127.0.0.1:8080 -> 8080
+```
