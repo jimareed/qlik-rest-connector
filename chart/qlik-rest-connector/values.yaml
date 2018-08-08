@@ -43,3 +43,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+## Persistence configuration
+##
+persistence:
+  enabled: true
+  storageClassName: "qlik-rest-connector-storage"
+
+  accessMode: ReadWriteOnce
+
+  size: 5Gi
+
+  path: /tmp/data
