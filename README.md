@@ -1,4 +1,4 @@
-# qlik-rest-connector
+# qlik-rest-datasource
 
 A simple REST connector example for Qlik Sense Enterprise.
 
