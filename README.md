@@ -63,6 +63,6 @@ $ helm del --purge qlik-rest-connector
 ##### 1. Build and run REST connector
 ```
 $ docker build --tag qlik-rest-connector .
-$ docker-compose up
+$ docker-compose up or (or docker run -p 8080:8080 -d qlik-rest-connector)
 $ docker-compose down (to shutdown connector)
 ```
